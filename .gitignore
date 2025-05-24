@@ -5,6 +5,8 @@
 *.db
 *.vcxproj.user
 
+vcnuker.cmd
+
 Caprica/bin/*
 Caprica/obj/*
 Caprica/tmp/*
