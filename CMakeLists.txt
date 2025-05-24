@@ -20,7 +20,7 @@ include(GNUInstallDirs)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING)
 
-option(CAPRICA_STATIC_LIBRARY "Build Caprica as a static library" OFF)
+option(CAPRICA_STATIC_LIBRARY "Build Caprica as a static library" ON)
 option(CAPRICA_USE_STATIC_RUNTIME "Compile Caprica with static runtime" OFF)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -99,7 +99,7 @@ if(CAPRICA_STATIC_LIBRARY)
   find_package(fmt REQUIRED)
   find_package(pugixml CONFIG REQUIRED)
   target_link_libraries(${PROJECT_NAME} PRIVATE Boost::container fmt::fmt)
-  target_link_libraries(${PROJECT_NAME} PRIVATE pugixml pugixml::static pugixml::pugixml)
+  target_link_libraries(${PROJECT_NAME} PRIVATE pugixml pugixml::pugixml)
 
   target_include_directories(
     "${PROJECT_NAME}"
