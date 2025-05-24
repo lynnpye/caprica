@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.15 FATAL_ERROR)
-cmake_policy(SET CMP0048 NEW) # VERSION variables
-cmake_policy(SET CMP0091 NEW) # CMAKE_MSVC_RUNTIME_LIBRARY
+#cmake_policy(SET CMP0048 NEW) # VERSION variables
+#cmake_policy(SET CMP0091 NEW) # CMAKE_MSVC_RUNTIME_LIBRARY
 
 # package information
 set(PACKAGE_NAME      "Caprica")
