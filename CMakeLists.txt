@@ -97,11 +97,11 @@ if(CAPRICA_STATIC_LIBRARY)
   file(GLOB SOURCE_FILES "caprica/**/*.cpp")
 
   add_library("${PROJECT_NAME}" STATIC ${HEADER_FILES} ${SOURCE_FILES})
-  find_package(Boost COMPONENTS container REQUIRED)
+  find_package(Boost COMPONENTS filesystem program_options property_tree container  REQUIRED)
   find_package(fmt REQUIRED)
   find_package(pugixml CONFIG REQUIRED)
-  target_link_libraries(${PROJECT_NAME} PRIVATE Boost::container fmt::fmt)
-  target_link_libraries(${PROJECT_NAME} PRIVATE pugixml pugixml::pugixml)
+  target_link_libraries(${PROJECT_NAME} PUBLIC Boost::filesystem Boost::program_options Boost::property_tree Boost::container fmt::fmt)
+  target_link_libraries(${PROJECT_NAME} PUBLIC pugixml pugixml::pugixml)
 
   target_include_directories(
     "${PROJECT_NAME}"
