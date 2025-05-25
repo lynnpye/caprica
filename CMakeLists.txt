@@ -93,8 +93,9 @@ endif()
 
 if(CAPRICA_STATIC_LIBRARY)
   
-  file(GLOB HEADER_FILES "caprica/**/*.h")
-  file(GLOB SOURCE_FILES "caprica/**/*.cpp")
+  file(GLOB_RECURSE HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/caprica/**/*.h")
+  file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/caprica/**/*.cpp")
+
 
   add_library("${PROJECT_NAME}" STATIC ${HEADER_FILES} ${SOURCE_FILES})
   find_package(Boost COMPONENTS filesystem program_options property_tree container  REQUIRED)
