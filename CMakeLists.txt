@@ -95,9 +95,9 @@ if(CAPRICA_STATIC_LIBRARY)
   
   file(GLOB_RECURSE HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/caprica/**/*.h")
   file(GLOB_RECURSE SOURCE_FILES
-    "${CMAKE_CURRENT_SOURCE_DIR}/caprica/common/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/caprica/papyrus/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/caprica/pex/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/caprica/common/**/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/caprica/papyrus/**/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/caprica/pex/**/*.cpp"
     )
 
 
