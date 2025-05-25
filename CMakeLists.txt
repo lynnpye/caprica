@@ -73,7 +73,7 @@ endif()
 
 set(CAPRICA_TARGET_NAME                ${PROJECT_NAME})
 set(CAPRICA_CONFIG_INSTALL_DIR         "${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}" CACHE PATH "")
-set(CAPRICA_INCLUDE_INSTALL_DIR        "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}" CACHE PATH "")
+set(CAPRICA_INCLUDE_INSTALL_DIR        "${CMAKE_INSTALL_INCLUDEDIR}" CACHE PATH "")
 #set(CAPRICA_CONFIG_INSTALL_DIR         "${CMAKE_INSTALL_DATAROOTDIR}/caprica" CACHE INTERNAL "")
 #set(CAPRICA_INCLUDE_INSTALL_DIR        "${CMAKE_INSTALL_INCLUDEDIR}/caprica" CACHE INTERNAL "")
 set(CAPRICA_TARGETS_EXPORT_NAME        "${PROJECT_NAME}-targets")
@@ -100,8 +100,15 @@ if(CAPRICA_STATIC_LIBRARY)
   find_package(Boost COMPONENTS filesystem program_options property_tree container  REQUIRED)
   find_package(fmt REQUIRED)
   find_package(pugixml CONFIG REQUIRED)
-  target_link_libraries(${PROJECT_NAME} PUBLIC Boost::filesystem Boost::program_options Boost::property_tree Boost::container fmt::fmt)
-  target_link_libraries(${PROJECT_NAME} PUBLIC pugixml pugixml::pugixml)
+  target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+      Boost::filesystem
+      Boost::program_options
+      Boost::property_tree
+      Boost::container
+      fmt::fmt
+      pugixml::pugixml
+      )
 
   target_include_directories(
     "${PROJECT_NAME}"
@@ -131,16 +138,29 @@ if(CAPRICA_STATIC_LIBRARY)
     DESTINATION "${CAPRICA_CONFIG_INSTALL_DIR}"
   )
   install(
-    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/caprica/"
-    DESTINATION "${CAPRICA_INCLUDE_INSTALL_DIR}/${PROJECT_NAME}"
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/caprica/common"
+    DESTINATION "${CAPRICA_INCLUDE_INSTALL_DIR}/caprica"
+    FILES_MATCHING PATTERN "*.h"
+  )
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/caprica/papyrus"
+    DESTINATION "${CAPRICA_INCLUDE_INSTALL_DIR}/caprica"
+    FILES_MATCHING PATTERN "*.h"
+  )
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/caprica/pex"
+    DESTINATION "${CAPRICA_INCLUDE_INSTALL_DIR}/caprica"
     FILES_MATCHING PATTERN "*.h"
   )
 #  install(
 #    FILES ${HEADER_FILES}
 #    DESTINATION "${CAPRICA_INCLUDE_INSTALL_DIR}/${PROJECT_NAME}"
 #  )
-  install(FILES ${CAPRICA_CMAKE_VERSION_CONFIG_FILE} ${CAPRICA_CMAKE_PROJECT_CONFIG_FILE}
-  DESTINATION ${CAPRICA_CONFIG_INSTALL_DIR})
+  install(FILES
+    ${CAPRICA_CMAKE_VERSION_CONFIG_FILE}
+    ${CAPRICA_CMAKE_PROJECT_CONFIG_FILE}
+    DESTINATION ${CAPRICA_CONFIG_INSTALL_DIR}
+    )
 else()
   find_package(Boost COMPONENTS filesystem program_options container REQUIRED)
   find_package(fmt REQUIRED)
