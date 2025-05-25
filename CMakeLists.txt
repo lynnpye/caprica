@@ -3,7 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 4.00 FATAL_ERROR)
 #cmake_policy(SET CMP0091 NEW) # CMAKE_MSVC_RUNTIME_LIBRARY
 
 # package information
-set(PACKAGE_NAME      "Caprica")
+set(PACKAGE_NAME      "caprica")
 set(PACKAGE_VERSION   "0.0.1")
 set(PACKAGE_STRING    "${PACKAGE_NAME} ${PACKAGE_VERSION}")
 set(PACKAGE_TARNAME   "${PACKAGE_NAME}-${PACKAGE_VERSION}")
@@ -92,8 +92,8 @@ endif()
 
 if(CAPRICA_STATIC_LIBRARY)
   
-  file(GLOB HEADER_FILES "Caprica/**/*.h")
-  file(GLOB SOURCE_FILES "Caprica/**/*.cpp")
+  file(GLOB HEADER_FILES "caprica/**/*.h")
+  file(GLOB SOURCE_FILES "caprica/**/*.cpp")
 
   add_library("${PROJECT_NAME}" STATIC ${HEADER_FILES} ${SOURCE_FILES})
   find_package(Boost COMPONENTS container REQUIRED)
@@ -105,7 +105,7 @@ if(CAPRICA_STATIC_LIBRARY)
   target_include_directories(
     "${PROJECT_NAME}"
     PUBLIC
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Caprica>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/caprica>
     $<INSTALL_INTERFACE:${CAPRICA_INCLUDE_INSTALL_DIR}>
   )
   include(CMakePackageConfigHelpers)
@@ -148,6 +148,6 @@ else()
   target_link_libraries(${PROJECT_NAME} PRIVATE pugixml pugixml::static pugixml::pugixml)
 
   install(
-    TARGETS Caprica
+    TARGETS caprica
   )
 endif()
