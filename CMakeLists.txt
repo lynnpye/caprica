@@ -108,6 +108,7 @@ if(CAPRICA_STATIC_LIBRARY)
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/caprica>
     $<INSTALL_INTERFACE:${CAPRICA_INCLUDE_INSTALL_DIR}>
+    $<INSTALL_INTERFACE:${CAPRICA_INCLUDE_INSTALL_DIR}/caprica>
   )
   include(CMakePackageConfigHelpers)
   write_basic_package_version_file(
