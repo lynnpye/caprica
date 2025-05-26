@@ -18,12 +18,10 @@ project(${PACKAGE_NAME} VERSION ${PACKAGE_VERSION} LANGUAGES CXX)
 include(GNUInstallDirs)
 
 
-add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING)
 
 option(CAPRICA_STATIC_LIBRARY "Build Caprica as a static library" ON)
 option(CAPRICA_USE_STATIC_RUNTIME "Compile Caprica with static runtime" OFF)
 
-set(CMAKE_CXX_STANDARD 23)
 
 
 # Automatically create source_group directives for the sources passed in.
@@ -77,7 +75,7 @@ set(CAPRICA_INCLUDE_INSTALL_DIR        "${CMAKE_INSTALL_INCLUDEDIR}" CACHE PATH 
 #set(CAPRICA_CONFIG_INSTALL_DIR         "${CMAKE_INSTALL_DATAROOTDIR}/caprica" CACHE INTERNAL "")
 #set(CAPRICA_INCLUDE_INSTALL_DIR        "${CMAKE_INSTALL_INCLUDEDIR}/caprica" CACHE INTERNAL "")
 set(CAPRICA_TARGETS_EXPORT_NAME        "${PROJECT_NAME}-targets")
-set(CAPRICA_CMAKE_CONFIG_TEMPLATE      "${CMAKE_SOURCE_DIR}/caprica/cmake/Config.cmake.in")
+set(CAPRICA_CMAKE_CONFIG_TEMPLATE      "${CMAKE_CURRENT_SOURCE_DIR}/Caprica/cmake/Config.cmake.in")
 set(CAPRICA_CMAKE_CONFIG_DIR           "${CMAKE_CURRENT_BINARY_DIR}")
 set(CAPRICA_CMAKE_VERSION_CONFIG_FILE  "${CAPRICA_CMAKE_CONFIG_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
 set(CAPRICA_CMAKE_PROJECT_CONFIG_FILE  "${CAPRICA_CMAKE_CONFIG_DIR}/${PROJECT_NAME}Config.cmake")
@@ -99,12 +97,25 @@ if(CAPRICA_STATIC_LIBRARY)
     "${CMAKE_CURRENT_SOURCE_DIR}/caprica/papyrus/**/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/caprica/pex/**/*.cpp"
     )
-
+  file(GLOB SOURCE_FILES_COMMON
+    "${CMAKE_CURRENT_SOURCE_DIR}/caprica/common/*.cpp"
+  )
+  file(GLOB SOURCE_FILES_PAPYRUS
+    "${CMAKE_CURRENT_SOURCE_DIR}/caprica/papyrus/*.cpp"
+  )
+  file(GLOB SOURCE_FILES_PEX
+    "${CMAKE_CURRENT_SOURCE_DIR}/caprica/pex/*.cpp"
+  )
+  list(APPEND SOURCE_FILES ${SOURCE_FILES_COMMON} ${SOURCE_FILES_PAPYRUS} ${SOURCE_FILES_PEX})
 
   add_library("${PROJECT_NAME}" STATIC ${HEADER_FILES} ${SOURCE_FILES})
   find_package(Boost COMPONENTS filesystem program_options property_tree container  REQUIRED)
   find_package(fmt REQUIRED)
   find_package(pugixml CONFIG REQUIRED)
+  
+  target_compile_definitions(${PROJECT_NAME} PUBLIC _CRT_SECURE_NO_WARNINGS _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING)
+  target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_23)
+
   target_link_libraries(${PROJECT_NAME}
     PUBLIC
       Boost::filesystem
@@ -176,6 +187,9 @@ else()
   )
   add_subdirectory(Caprica)
   add_dependencies(${PROJECT_NAME} Caprica)
+  
+  add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING)
+  set(CMAKE_CXX_STANDARD 23)
   target_link_libraries(${PROJECT_NAME} PRIVATE Boost::filesystem Boost::program_options Boost::container fmt::fmt)
   target_link_libraries(${PROJECT_NAME} PRIVATE pugixml pugixml::static pugixml::pugixml)
 
